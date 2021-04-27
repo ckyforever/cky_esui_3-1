@@ -1,0 +1,158 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server">
+    <title>Pet Shop 系统管理</title>
+    <style type="text/css">
+        .header {
+            background: #1E4176 url(../../Include/Images/hd-bg.gif) repeat-x scroll 0pt;
+            border: 0pt none;
+            color: #FFF;
+            margin: 0;
+            height: 32px;
+        }
+
+            .header h1 {
+                font-size: 14px;
+                line-height: 31px;
+                padding: 0 5px;
+            }
+
+                .header h1 samp {
+                    font-size: 12px;
+                    color: #CCC;
+                    font-weight: normal;
+                    margin-left: 8px;
+                }
+    </style>
+    <script src="js/easyUI/jquery-1.7.2.min.js" type="text/javascript"></script>
+    <script src="js/easyUI/jquery.easyui.min.js" type="text/javascript"></script>
+    <link href="js/easyUI/themes/gray/easyui.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="js/css/lanrentuku.css" />
+    <script>
+        function addTab(title, href) {
+            var tt = $('#main-center');
+            if (tt.tabs('exists', title)) {
+                tt.tabs('select', title);
+            } else {
+                if (href) {
+                    var content = '<iframe scrolling="no" frameborder="0"  src="' + href + '" style="width:100%;height:100%;"></iframe>';
+                } else {
+                    var content = '未实现';
+                }
+                tt.tabs('add', {
+                    title: title,
+                    closable: true,
+                    content: content
+                });
+            }
+        }
+        $(document).ready(function () {
+            /* This code is executed after the DOM has been completely loaded */
+
+            /* Changing thedefault easing effect - will affect the slideUp/slideDown methods: */
+            $.easing.def = "easeOutBounce";
+
+            /* Binding a click event handler to the links: */
+            $('li.button a').click(function (e) {
+
+                /* Finding the drop down list that corresponds to the current section: */
+                var dropDown = $(this).parent().next();
+
+                /* Closing all other drop down sections, except the current one */
+                $('.dropdown').not(dropDown).slideUp('slow');
+                dropDown.slideToggle('slow');
+
+                /* Preventing the default event (which would be to navigate the browser to the link's address) */
+                e.preventDefault();
+            })
+
+        });
+
+    </script>
+</head>
+<body class="easyui-layout">
+
+    <div region="north" class="header" style="background: #fafafa; color: #2d5593; height: 40px;">
+        <div style="font-size: 16px; font-weight: bold; width: 400px; padding: 10px 0 0 10px;">Pet Shop 系统管理</div>
+    </div>
+    <div region="west" title="系统功能" split="true" style="width: 270px;">
+
+        <br />
+
+        <ul class="container">
+            <li class="menuleft">
+                <ul>
+                    <li class="button"><a href="#" class="green">销售管理系统 <span></span></a></li>
+
+                    <li class="dropdown">
+                        <ul>
+                            <li><a href="#" onclick="addTab('管理员信息', 'admin_data.html');">管理员信息</a></li>
+                            <li><a href="#" onclick="addTab('产品信息', 'produce_data.html');">产品基本信息</a></li>
+                            <li><a href="#" onclick="addTab('产品销售', 'produce_sale.html');">产品销售</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="menuleft">
+                <ul>
+                    <li class="button"><a href="#" class="orange">Oranges <span></span></a></li>
+
+                    <li class="dropdown">
+                        <ul>
+                            <li><a href="#" onclick="$('.button a:last').click();return false;">Open Last Section</a></li>
+                            <li><a href="http://www.html.org.cn/">Wikipedia Page</a></li>
+                            <li><a href="http://www.html.org.cn/">Flickr Photos</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="menuleft">
+                <ul>
+                    <li class="button"><a href="#" class="blue">Grapes <span></span></a></li>
+
+                    <li class="dropdown">
+                        <ul>
+                            <li><a href="http://www.html.org.cn/">Wiki page</a></li>
+                            <li>Text label 1</li>
+                            <li>Text label 2</li>
+                            <li><a href="http://www.html.org.cn/">Flickr Stream</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+
+
+            <li class="menuleft">
+                <ul>
+                    <li class="button"><a href="#" class="red">Strawberries <span></span></a></li>
+
+                    <li class="dropdown">
+                        <ul>
+                            <li><a href="http://www.maitianquan.com/">crop circles</a></li>
+                            <li><a href="http://sc.html.org.cn/">sc.html.org.cn</a></li>
+                            <li><a href="http://www.html.org.cn/">Lanrentuku</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <br />
+
+
+    </div>
+    <div region="center">
+        <div id="main-center" class="easyui-tabs" fit="true" border="false">
+            <div title="首页" style="padding: 20px;">
+                <div style="margin-top: 20px;">
+                    <p>该系统是一个由jquery-easyui技术构建的应用示例，如果您对本系统所使用的技术感兴趣，请与我们联系。</p>
+                    <p>通用系统管理：用户管理、角色管理、功能菜单管理、权限控制、用户登录等。</p>
+                    <p>我们对系统进行简化，旨在说明一般功能的开发方法。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>

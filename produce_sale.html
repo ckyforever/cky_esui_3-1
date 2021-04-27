@@ -1,0 +1,189 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="js/easyUI/jquery-1.7.2.min.js" type="text/javascript"></script>
+    <script src="js/easyUI/jquery.easyui.min.js" type="text/javascript"></script>
+    <script src="js/easyUI/locale/easyui-lang-zh_CN.js" type="text/javascript"></script>
+    <link href="js/easyUI/themes/gray/easyui.css" rel="stylesheet" type="text/css" />
+    <link href="js/easyUI/themes/icon.css" rel="stylesheet" type="text/css" />
+    <link href="js/css/default.css" rel="stylesheet" type="text/css" />
+    <script src="js/ljxpage.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        //弹出信息窗口 title:标题 msgString:提示信息 msgType:信息类型 [error,info,question,warning]
+        function msgShow(title, msgString, msgType) {
+            $.messager.alert(title, msgString, msgType);
+        }
+        $(function () {
+            InitGird1('tab_list', '销售主表', 'produce_sale.ashx', 'Id', '公司名称', '销售时间', '销售人员', '送货地址');
+            //InitGird();//列表绑定
+            InitSearch('ipt_search', 'tab_list');//查询控件
+            setwin('save_window', '销售主表编辑', true);//打开编辑窗口
+            //setcombobox('gg3', 'produce_sale.ashx?type=combox1', '产品名称', '产品类型');//绑定单列下拉框
+            //setcombogridm('gg2', 'produce_sale.ashx?type=combox', '产品名称', '产品类型', '单位名称');//绑定多列下拉框，并可以多选
+            //setcombogrids('combogrid_gg', 'produce_sale.ashx?type=combox', '产品名称', '产品类型', '单位名称');//绑定多列下拉框，并可以单选
+        });
+
+        function add() {
+            $('#Id').val('');
+            openwin('save_window');
+        }
+        function edit() {
+            editdata('tab_list', 'produce_sale.ashx', 'Id,company_name,sale_time,sale_people,address', 'save_window');
+        }
+
+        function del() {
+            deldata('tab_list', 'produce_sale.ashx');
+        }
+        //添加/保存信息
+        function saveOrg() {
+            savedata('tab_list', 'produce_sale.ashx', 'Id,company_name,sale_time,sale_people,address', 'save_window');
+        }
+        function mxbj() {
+            var node = $('#tab_list').datagrid('getSelected');
+            if (node) {
+                window.location.href = "produce_saleDetail.html?main_id=" + node.Id;
+            } else {
+                msgShow('系统提示', '请选择要编辑的记录', 'error');
+            }
+        }
+
+        //初始化表格
+        function InitGird() {
+            $('#tab_list').datagrid({
+                //     title: '基础_器具', //表格标题
+                url: 'produce_sale.ashx', //请求数据的页面
+                //   sortName: '产品名称', //排序字段
+                idField: 'Id', //标识字段,主键
+                iconCls: '', //标题左边的图标
+                width: '100%', //宽度
+                singleSelect: true,
+                nowrap: false, //是否换行，True 就会把数据显示在一行里
+                striped: true, //True 奇偶行使用不同背景色
+                collapsible: false, //可折叠
+                sortOrder: 'desc', //排序类型
+                remoteSort: false, //定义是否从服务器给数据排序 'id', '产品名称', '产品规格', '产品数量', '备注'
+
+                columns: [[
+                    { field: 'id', title: '', width: 30, align: 'center' },//, hidden: 'true'
+                    { field: '公司名称', title: '公司名称', width: $(this).width() * 0.2425, align: 'center' },
+                    { field: '销售时间', title: '销售时间', width: $(this).width() * 0.2425, align: 'center' },
+                    { field: '销售人员', title: '销售人员', width: $(this).width() * 0.2425, align: 'center' },
+                    { field: '送货地址', title: '送货地址', width: $(this).width() * 0.2425, align: 'center' },
+
+                    {
+                        //field: '备注', title: '操作明细', width: 200,
+                        //formatter: function (value, row, index) {
+                        //    return '<a style="color:blue" href="mxtest.html?ZId=' + row.id + '">操作明细</a>';
+                        //}
+                    }
+
+
+                ]],
+                onDblClickCell: function () {
+                    edit();
+                },
+                queryParams: { "action": "query" },
+                pagination: true, //是否开启分页
+                pageNumber: 1, //默认索引页
+                pageSize: 20, //默认一页数据条数
+                rownumbers: false //行号
+            });
+
+        }
+
+    </script>
+</head>
+<body>
+    <form id="form1">
+        <input id="HdId" type="hidden" />
+        <div class="btabs">
+            <table width="100%">
+                <tr valign="top">
+                    <td align="left">
+                        <div style="width: 200px; overflow: auto; display: inline">
+                            <div id="add" style="float: left"><span class="icon icon-add"></span><a href="javascript:void(0)" onclick="add()">添加</a>&nbsp;&nbsp;</div>
+                            <div id="edit" style="float: left"><span class="icon icon-edit"></span><a href="javascript:void(0)" onclick="edit()">编辑</a>&nbsp;&nbsp;</div>
+                            <div id="del" style="float: left"><span class="icon icon-delete2"></span><a href="javascript:void(0)" onclick="del()">删除</a></div>
+                            &nbsp;&nbsp;&nbsp;<div id="Div21" style="float: left"><span class="icon icon-delete2"></span><a href="javascript:void(0)" onclick="mxbj()">明细编辑</a></div>
+                            &nbsp;&nbsp;&nbsp;
+                        </div>
+                    </td>
+                    <td style="text-align: right; padding-right: 15px">
+                        <input id="ipt_search" menu="#search_menu" />
+                        <div id="search_menu" style="width: 120px">
+                            <div name="Id">
+                                Id
+                            </div>
+                            <div name="公司名称">
+                                公司名称
+                            </div>
+                            <div name="销售时间">
+                                销售时间
+                            </div>
+                            <div name="销售人员">
+                                销售人员
+                            </div>
+                            <div name="送货地址">
+                                送货地址
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="div4" style="width: 100.5%">
+            <table id="tab_list" style="height: auto">
+            </table>
+        </div>
+        <div id="save_window" icon="icon-save" style="padding: 5px; width: 460px;">
+            <div id="divU">
+                <table cellpadding="0" cellspacing="1px" border="0" style="width: 100%;" bgcolor="b5d6e6">
+                    <tr style="background-color: White; height: 32px;">
+                        <td style="width: 80px; padding-left: 5px">Id
+                        </td>
+                        <td style="padding: 5px">
+                            <input id="Id" type="text" style="border: 1px solid #8DB2E3; width: 200px; height: 20px" />
+                        </td>
+                    </tr>
+                    <tr style="background-color: White; height: 32px;">
+                        <td style="width: 80px; padding-left: 5px">公司名称
+                        </td>
+                        <td style="padding: 5px">
+                            <input id="company_name" type="text" style="border: 1px solid #8DB2E3; width: 200px; height: 20px" />
+                        </td>
+                    </tr>
+                    <tr style="background-color: White; height: 32px;">
+                        <td style="padding: 5px">销售时间
+                        </td>
+                        <td style="padding: 5px">
+                            <input class="easyui-datebox" id="sale_time" type="text" class="auto-style1" required="required" />
+                        </td>
+                    </tr>
+                    <tr style="background-color: White; height: 32px;">
+                        <td style="width: 80px; padding-left: 5px">销售人员
+                        </td>
+                        <td style="padding: 5px">
+                            <input id="sale_people" type="text" style="border: 1px solid #8DB2E3; width: 200px; height: 20px" />
+                        </td>
+                    </tr>
+                    <tr style="background-color: White; height: 32px;">
+                        <td style="padding: 5px">送货地址
+                        </td>
+                        <td style="padding: 5px">
+                            <input id="address" type="text" style="border: 1px solid #8DB2E3; width: 200px; height: 20px" />
+                        </td>
+                    </tr>
+
+                </table>
+            </div>
+            <div region="south" border="false" style="text-align: right; height: 30px; line-height: 30px;">
+                <a id="A3" class="easyui-linkbutton" onclick="saveOrg()" icon="icon-ok" href="javascript:void(0)">确定</a>
+                <a id="A4" class="easyui-linkbutton" onclick="closewin('edit_window')" icon="icon-cancel" href="javascript:void(0)">取消</a>
+            </div>
+        </div>
+    </form>
+</body>
+</html>

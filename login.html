@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <!--    <meta http-equiv="X-UA-Compatible" content="ie=edge" />-->
+    <title>Login</title>
+    <style>
+        .body {
+            margin: 0;
+            padding: 0;
+            font-family: sans-serif;
+            background: #34495e;
+        }
+
+        .box {
+            width: 300px;
+            padding: 30px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: url(/images/bg2.png);
+            text-align: center;
+        }
+
+            .box h1 {
+                color: white;
+                text-transform: uppercase;
+                font-weight: 500;
+            }
+
+            .box input[type='text'],
+            .box input[type='password'] {
+                border: 0;
+                background:;
+                display: block;
+                margin: 40px auto;
+                text-align: center;
+                border: 2px solid #3498db;
+                padding: 14px 10px;
+                width: 200px;
+                outline: none;
+                color: black;
+                border-radius: 24px;
+                transition: 0.25s;
+            }
+
+                .box input[type='text']:focus,
+                .box input[type='password']:focus {
+                    width: 280px;
+                    border-color: #2ecc71;
+                }
+
+        .submit {
+            border: 0;
+            background: none;
+            margin: 20px auto;
+            margin-top: 0;
+            display: inline-block;
+            text-align: center;
+            border: 2px solid #3498db;
+            padding: 10px 40px;
+            outline: none;
+            color: white;
+            border-radius: 24px;
+            transition: 0.25s;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 12px;
+        }
+
+            .submit:hover {
+                background: rgba(33, 47, 58, 0.13);
+                border-color: #487eb0;
+            }
+    </style>
+    <script src="js/easyUI/jquery-1.7.2.min.js" type="text/javascript"></script>
+    <script src="js/easyUI/jquery.easyui.min.js" type="text/javascript"></script>
+    <script src="js/easyUI/locale/easyui-lang-zh_CN.js" type="text/javascript"></script>
+    <link href="js/easyUI/themes/gray/easyui.css" rel="stylesheet" type="text/css" />
+    <link href="js/easyUI/themes/icon.css" rel="stylesheet" type="text/css" />
+    <link href="js/css/default.css" rel="stylesheet" type="text/css" />
+    <script src="js/ljxpage.js" type="text/javascript"></script>
+</head>
+<body>
+    <script type="text/javascript">
+        function login() {
+            var name = $('#name').val();
+            var password = $('#password').val();
+            var login = 'false';
+            if (name == "" || password == "") {
+                alert("请输入用户名和密码");
+                return;
+            }
+            $.post('login.ashx?name=' + encodeURI(name)
+                + '&password=' + encodeURI(password)
+                + '&login=' + encodeURI(login),
+                function (msg) {
+                    if (msg == "OK")
+                        window.location.href = "mainframeok.html";
+                    else
+                        alert('密码错误或帐户不存在');
+                }
+            );
+        }
+    </script>
+    <div class="box">
+        <h1 style="font-family: 'Malgun Gothic'; font-size: medium">Login</h1>
+        <input id="name" type="text" placeholder="Username" />
+        <input id="password" type="password" placeholder="Password" />
+        <input id="Button1" type="button" value="Login" class="submit" style="font-family: 'Malgun Gothic'; font-size: medium" onclick="login()" />
+    </div>
+</body>
+</html>
